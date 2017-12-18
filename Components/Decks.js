@@ -12,8 +12,16 @@ import { material } from "react-native-typography";
 import { MaterialIcons } from "@expo/vector-icons";
 import { white, bg, bgDarker, title } from "../utils/colors";
 import { Svg } from "expo";
+import { dataStore } from "../utils/dataStore";
 
 export default class Decks extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      decks: []
+    };
+  }
+
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     return {
@@ -58,44 +66,27 @@ export default class Decks extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({ handleAddDeck: this.handleAddDeck });
+    this.setState({ decks: new dataStore().deckList() });
+  }
+
+  listDecks() {
+    if (this.state.decks.length > 0) {
+      return this.state.decks.map(deck => (
+        <View key={deck.key} style={styles.item}>
+          <Text style={material.title}>{deck.key}</Text>
+          <Text style={material.caption}>
+            {deck.cards} {deck.cards > 0 ? "Cards" : "Card"}
+          </Text>
+        </View>
+      ));
+    }
   }
 
   render() {
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={[styles.main, { backgroundColor: bg }]}>
-          <View style={styles.item}>
-            <Text style={material.title}>React</Text>
-            <Text style={material.caption}>3 Card</Text>
-          </View>
-          <View style={styles.item}>
-            <Text style={material.title}>Components</Text>
-            <Text style={material.caption}>1 Card</Text>
-          </View>
-          <View style={styles.item}>
-            <Text style={material.title}>Components</Text>
-            <Text style={material.caption}>1 Card</Text>
-          </View>
-          <View style={styles.item}>
-            <Text style={material.title}>Components</Text>
-            <Text style={material.caption}>1 Card</Text>
-          </View>
-          <View style={styles.item}>
-            <Text style={material.title}>Components</Text>
-            <Text style={material.caption}>1 Card</Text>
-          </View>
-          <View style={styles.item}>
-            <Text style={material.title}>Components</Text>
-            <Text style={material.caption}>1 Card</Text>
-          </View>
-          <View style={styles.item}>
-            <Text style={material.title}>Components</Text>
-            <Text style={material.caption}>1 Card</Text>
-          </View>
-          <View style={styles.item}>
-            <Text style={material.title}>Components</Text>
-            <Text style={material.caption}>1 Card</Text>
-          </View>
+          {this.listDecks()}
           <View style={{ height: 24 }} />
         </ScrollView>
         <View style={{ position: "absolute", width: "100%", height: 16 }}>
