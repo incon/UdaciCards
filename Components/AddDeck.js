@@ -14,21 +14,32 @@ class AddDeck extends Component {
       error: ""
     };
   }
-  handleUpdate(title) {
-    this.setState({ title });
-    if (Object.keys(this.props.decks).indexOf(title) === -1) {
-      this.setState({ error: "" });
-    } else {
-      this.setState({ error: "Title as already been used." });
+
+  validate(title) {
+    let error = "";
+    if (Object.keys(this.props.decks).indexOf(title) !== -1) {
+      error = "Title as already been used.";
     }
+    if (title.length === 0) {
+      error = "Title can not be empty.";
+    }
+    return error;
+  }
+  handleUpdate(title) {
+    this.setState({ title, error: this.validate(title) });
   }
 
   addDeck() {
     const { dispatch } = this.props;
     const { title } = this.state;
-    dispatch(addDeck(title));
-    submitDeck(title);
-    this.props.navigation.goBack();
+    const error = this.validate(title);
+    if (error.length === 0) {
+      dispatch(addDeck(title));
+      submitDeck(title);
+      this.props.navigation.goBack();
+    } else {
+      this.setState({ error });
+    }
   }
 
   render() {
@@ -51,7 +62,11 @@ class AddDeck extends Component {
           <Text style={{ marginTop: 4, color: "red" }}>{error}</Text>
         )}
         <View style={{ height: 16 }} />
-        <Button title="Add Deck" onPress={() => this.addDeck()} />
+        <Button
+          disabled={error.length > 0}
+          title="Add Deck"
+          onPress={() => this.addDeck()}
+        />
       </View>
     );
   }
