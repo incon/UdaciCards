@@ -12,16 +12,11 @@ import { material } from "react-native-typography";
 import { MaterialIcons } from "@expo/vector-icons";
 import { white, bg, bgDarker, title } from "../utils/colors";
 import { Svg } from "expo";
-import { dataStore } from "../utils/dataStore";
+import { getDecks } from "../utils/dataStore";
+import { connect } from "react-redux";
+import { storeDecks } from "../actions";
 
-export default class Decks extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      decks: []
-    };
-  }
-
+class Decks extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     return {
@@ -61,17 +56,23 @@ export default class Decks extends Component {
   };
 
   handleAddDeck = () => {
-    this.props.navigation.navigate("AddDeck");
+    this.props.navigation.navigate("AddDeck", {
+      onNavigateBack: this.handleOnNavigateBack
+    });
   };
 
   componentDidMount() {
+    const { dispatch } = this.props;
+    getDecks().then(decks => dispatch(storeDecks(decks)));
     this.props.navigation.setParams({ handleAddDeck: this.handleAddDeck });
-    this.setState({ decks: new dataStore().deckList() });
   }
 
   listDecks() {
-    if (this.state.decks.length > 0) {
-      return this.state.decks.map(deck => (
+    const decks = Object.keys(this.props.decks).reduce((decks, key) => {
+      return [...decks, { key, cards: this.props.decks[key].questions.length }];
+    }, []);
+    if (decks.length > 0) {
+      return decks.map(deck => (
         <View key={deck.key} style={styles.item}>
           <Text style={material.title}>{deck.key}</Text>
           <Text style={material.caption}>
@@ -131,3 +132,10 @@ const styles = StyleSheet.create({
     }
   }
 });
+
+function mapStateToProps(decks) {
+  return {
+    decks
+  };
+}
+export default connect(mapStateToProps)(Decks);
