@@ -6,7 +6,8 @@ import {
   Platform,
   TouchableOpacity,
   TouchableNativeFeedback,
-  StyleSheet
+  StyleSheet,
+  TouchableWithoutFeedback
 } from "react-native";
 import { material } from "react-native-typography";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -73,12 +74,19 @@ class Decks extends Component {
     }, []);
     if (decks.length > 0) {
       return decks.map(deck => (
-        <View key={deck.key} style={styles.item}>
-          <Text style={material.title}>{deck.key}</Text>
-          <Text style={material.caption}>
-            {deck.cards} {deck.cards > 0 ? "Cards" : "Card"}
-          </Text>
-        </View>
+        <TouchableWithoutFeedback
+          key={deck.key}
+          onPress={() =>
+            this.props.navigation.navigate("Deck", { deckKey: deck.key })
+          }
+        >
+          <View style={styles.item}>
+            <Text style={material.title}>{deck.key}</Text>
+            <Text style={material.caption}>
+              {deck.cards} {deck.cards > 0 ? "Cards" : "Card"}
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
       ));
     }
   }

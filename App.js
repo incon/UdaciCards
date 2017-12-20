@@ -4,6 +4,7 @@ import { bg, title } from "./utils/colors";
 import { StackNavigator } from "react-navigation";
 import Decks from "./components/Decks";
 import AddDeck from "./components/AddDeck";
+import Deck from "./components/Deck";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducer from "./reducers";
@@ -22,6 +23,9 @@ const MainNavigator = StackNavigator(
       navigationOptions: {
         title: "Add Deck"
       }
+    },
+    Deck: {
+      screen: Deck
     }
   },
   {
