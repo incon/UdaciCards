@@ -77,7 +77,7 @@ class Decks extends Component {
         <TouchableWithoutFeedback
           key={deck.key}
           onPress={() =>
-            this.props.navigation.navigate("Deck", { deckKey: deck.key })
+            this.props.navigation.navigate("Deck", { key: deck.key })
           }
         >
           <View style={styles.item}>

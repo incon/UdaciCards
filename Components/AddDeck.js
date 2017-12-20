@@ -5,6 +5,7 @@ import { material } from "react-native-typography";
 import { submitDeck } from "../utils/dataStore";
 import { addDeck } from "../actions";
 import { connect } from "react-redux";
+import { NavigationActions } from "react-navigation";
 
 class AddDeck extends Component {
   constructor(props) {
@@ -36,7 +37,18 @@ class AddDeck extends Component {
     if (error.length === 0) {
       dispatch(addDeck(title));
       submitDeck(title);
-      this.props.navigation.goBack();
+
+      const resetAction = NavigationActions.reset({
+        index: 1,
+        actions: [
+          NavigationActions.navigate({ routeName: "Decks" }),
+          NavigationActions.navigate({
+            routeName: "Deck",
+            params: { key: title }
+          })
+        ]
+      });
+      this.props.navigation.dispatch(resetAction);
     } else {
       this.setState({ error });
     }

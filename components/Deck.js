@@ -6,14 +6,14 @@ import { material } from "react-native-typography";
 
 class Deck extends Component {
   static navigationOptions = ({ navigation }) => {
-    const { deckKey } = navigation.state.params;
+    const { key } = navigation.state.params;
     return {
       title: navigation.state.params.deckKey,
       headerBackTitle: navigation.state.params.deckKey
     };
   };
   render() {
-    const key = this.props.navigation.state.params.deckKey;
+    const key = this.props.navigation.state.params.key;
     const deck = this.props.decks[key];
     const cards = deck.questions.length;
     return (
