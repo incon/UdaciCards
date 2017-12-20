@@ -1,4 +1,4 @@
-import { STORE_DECKS, ADD_DECK } from "../actions";
+import { STORE_DECKS, ADD_DECK, ADD_QUESTION } from "../actions";
 
 function decks(state = {}, action) {
   switch (action.type) {
@@ -13,6 +13,14 @@ function decks(state = {}, action) {
         [action.title]: {
           title: action.title,
           questions: []
+        }
+      };
+    case ADD_QUESTION:
+      return {
+        ...state,
+        [action.key]: {
+          ...[action.key],
+          questions: state[action.key].questions.concat(action.question)
         }
       };
     default:

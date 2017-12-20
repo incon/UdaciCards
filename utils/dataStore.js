@@ -49,3 +49,17 @@ export function submitDeck(title) {
     })
   );
 }
+
+export function submitQuestion(key, question) {
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(results => {
+    const data = JSON.parse(results);
+    const decks = {
+      ...data,
+      [key]: {
+        ...[key],
+        questions: data[key].questions.concat(question)
+      }
+    };
+    AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
+  });
+}
