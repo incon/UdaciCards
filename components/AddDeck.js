@@ -14,11 +14,12 @@ class AddDeck extends Component {
       title: "",
       error: ""
     };
+    this.decks = this.props.navigation.state.params.decks;
   }
 
   validate(title) {
     let error = "";
-    if (Object.keys(this.props.decks).indexOf(title) !== -1) {
+    if (Object.keys(this.decks).indexOf(title) !== -1) {
       error = "Title as already been used.";
     }
     if (title.length === 0) {
@@ -31,11 +32,11 @@ class AddDeck extends Component {
   }
 
   addDeck() {
-    const { dispatch } = this.props;
+    const { addDeck } = this.props.navigation.state.params;
     const { title } = this.state;
     const error = this.validate(title);
     if (error.length === 0) {
-      dispatch(addDeck(title));
+      addDeck(title);
       submitDeck(title);
 
       const resetAction = NavigationActions.reset({
@@ -84,9 +85,4 @@ class AddDeck extends Component {
   }
 }
 
-function mapStateToProps(decks) {
-  return {
-    decks
-  };
-}
-export default connect(mapStateToProps)(AddDeck);
+export default AddDeck;

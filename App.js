@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, StatusBar } from "react-native";
-import { bg, title } from "./utils/colors";
+import { bg } from "./utils/colors";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducer from "./reducers";

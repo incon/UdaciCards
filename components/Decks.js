@@ -15,7 +15,7 @@ import { white, bg, bgDarker, title } from "../utils/colors";
 import { Svg } from "expo";
 import { getDecks } from "../utils/dataStore";
 import { connect } from "react-redux";
-import { storeDecks } from "../actions";
+import { storeDecks, addDeck } from "../actions";
 
 class Decks extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -58,13 +58,14 @@ class Decks extends Component {
 
   handleAddDeck = () => {
     this.props.navigation.navigate("AddDeck", {
-      onNavigateBack: this.handleOnNavigateBack
+      onNavigateBack: this.handleOnNavigateBack,
+      decks: this.props.decks,
+      addDeck: this.props.addDeck
     });
   };
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    getDecks().then(decks => dispatch(storeDecks(decks)));
+    getDecks().then(decks => this.props.storeDecks(decks));
     this.props.navigation.setParams({ handleAddDeck: this.handleAddDeck });
   }
 
@@ -143,4 +144,4 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = decks => ({ decks });
 
-export default connect(mapStateToProps)(Decks);
+export default connect(mapStateToProps, { addDeck, storeDecks })(Decks);
