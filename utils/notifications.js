@@ -10,7 +10,7 @@ export function clearLocalNotification() {
   );
 }
 
-function createNotification() {
+const createNotification = () => {
   return {
     title: "Keep Learning!",
     body: "Practice makes perfect, complete a quiz.",
@@ -24,7 +24,7 @@ function createNotification() {
       vibrate: true
     }
   };
-}
+};
 
 export function setLocalNotification() {
   AsyncStorage.getItem(NOTIFICATION_KEY)
