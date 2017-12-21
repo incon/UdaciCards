@@ -3,6 +3,7 @@ import { StyleSheet, View, StatusBar } from "react-native";
 import { bg, title } from "./utils/colors";
 import { StackNavigator } from "react-navigation";
 import Decks from "./components/Decks";
+import Quiz from "./components/Quiz";
 import AddDeck from "./components/AddDeck";
 import AddQuestion from "./components/AddQuestion";
 import Deck from "./components/Deck";
@@ -33,6 +34,9 @@ const MainNavigator = StackNavigator(
     },
     Deck: {
       screen: Deck
+    },
+    Quiz: {
+      screen: Quiz
     }
   },
   {

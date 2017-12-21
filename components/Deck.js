@@ -8,8 +8,8 @@ class Deck extends Component {
   static navigationOptions = ({ navigation }) => {
     const { key } = navigation.state.params;
     return {
-      title: navigation.state.params.deckKey,
-      headerBackTitle: navigation.state.params.deckKey
+      title: navigation.state.params.key,
+      headerBackTitle: navigation.state.params.key
     };
   };
   render() {
@@ -49,7 +49,10 @@ class Deck extends Component {
             }
           }
         >
-          <Button title="Start Quiz" />
+          <Button
+            title="Start Quiz"
+            onPress={() => this.props.navigation.navigate("Quiz", { key })}
+          />
         </View>
       </View>
     );
