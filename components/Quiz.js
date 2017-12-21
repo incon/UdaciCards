@@ -4,6 +4,10 @@ import { connect } from "react-redux";
 import { bg, white } from "../utils/colors";
 import { material } from "react-native-typography";
 import materialColors from "react-native-typography/src/helpers/materialColors";
+import {
+  clearLocalNotification,
+  setLocalNotification
+} from "../utils/notifications";
 
 class Quiz extends Component {
   constructor(props) {
@@ -86,10 +90,13 @@ class Quiz extends Component {
               title="Correct"
               onPress={() => {
                 if (this.state.progress === length - 1) {
-                  this.setState(prevState => ({
-                    score: prevState.score + 1,
-                    screen: "completed"
-                  }));
+                  this.setState(prevState => {
+                    clearLocalNotification().then(setLocalNotification);
+                    return {
+                      score: prevState.score + 1,
+                      screen: "completed"
+                    };
+                  });
                 } else {
                   this.setState(prevState => ({
                     score: prevState.score + 1,
@@ -113,9 +120,12 @@ class Quiz extends Component {
               title="Incorrect"
               onPress={() => {
                 if (this.state.progress === length - 1) {
-                  this.setState(prevState => ({
-                    screen: "completed"
-                  }));
+                  this.setState(prevState => {
+                    clearLocalNotification().then(setLocalNotification);
+                    return {
+                      screen: "completed"
+                    };
+                  });
                 } else {
                   this.setState(prevState => ({
                     progress: prevState.progress + 1,

@@ -10,6 +10,7 @@ import Deck from "./components/Deck";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducer from "./reducers";
+import { setLocalNotification } from "./utils/notifications";
 
 const MainNavigator = StackNavigator(
   {
@@ -52,6 +53,9 @@ const MainNavigator = StackNavigator(
 );
 
 export default class App extends Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
   render() {
     return (
       <Provider store={createStore(reducer)}>
