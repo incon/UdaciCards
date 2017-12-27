@@ -51,6 +51,7 @@ class Deck extends Component {
         >
           <Button
             title="Start Quiz"
+            disabled={cards < 1}
             onPress={() => this.props.navigation.navigate("Quiz", { key })}
           />
         </View>
